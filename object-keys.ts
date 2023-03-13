@@ -20,3 +20,29 @@ const keys2 = objectKeys<typeof myObject>(myObject);
 for (const key of keys2) {
   console.log(myObject[key]);
 }
+
+enum MyEnum {
+  "A" = "foo",
+  "B" = "bar",
+}
+
+const myObjectWithEnumValues = {
+  [MyEnum.A]: 1,
+  [MyEnum.B]: 2,
+};
+
+console.log(myObjectWithEnumValues);
+
+function invertKeysAndValues<T>(
+  originalObject: Record<keyof T, unknown>,
+): Record<string, keyof T> {
+  return Object.fromEntries(
+    Object.entries(originalObject).map(([k, v]) => [v, k]),
+  );
+}
+
+const invertedObject = invertKeysAndValues<typeof myObjectWithEnumValues>(
+  myObjectWithEnumValues,
+);
+
+console.log(invertedObject);
