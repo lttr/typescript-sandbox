@@ -55,3 +55,8 @@ type DeriveUnion<T> = {
 }[keyof T];
 
 type MyUnion = DeriveUnion<typeof a>;
+
+// Union from array of strings
+const arr = ["foo", "bar"] as const;
+
+type UnionFromArray = typeof arr[number];
