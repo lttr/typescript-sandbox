@@ -60,3 +60,6 @@ type MyUnion = DeriveUnion<typeof a>;
 const arr = ["foo", "bar"] as const;
 
 type UnionFromArray = typeof arr[number];
+
+// @ts-expect-error Should be "foo" or "bar"
+const _unionFromType: UnionFromArray = "abc";
