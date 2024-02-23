@@ -31,6 +31,7 @@ function compute2(shape: Shape) {
   switch (shape.kind) {
     case "circle":
       return shape.diam;
+    // Missing the rest of possible Shapes
     default: {
       // @ts-expect-error: Type 'Square' is not assignable to type 'never'.
       const _exhaustiveCheck: never = shape;
