@@ -13,6 +13,7 @@ interface Circle {
 
 type Shape = Square | Circle;
 
+// Runtime exhaustive check
 function compute1(shape: Shape) {
   switch (shape.kind) {
     case "circle":
@@ -27,7 +28,8 @@ function exhaustiveCheck(_param: never): never {
   // throw new Error("should not reach here");
 }
 
-function compute2(shape: Shape) {
+// Compile time exhaustive check with default value of switch
+function compute2a(shape: Shape) {
   switch (shape.kind) {
     case "circle":
       return shape.diam;
@@ -38,6 +40,18 @@ function compute2(shape: Shape) {
       return _exhaustiveCheck;
     }
   }
+}
+
+// Currently the nicest compile time only exhaustivness check
+// It is usable in other situations, not only with switch statement
+function compute2b(shape: Shape) {
+  switch (shape.kind) {
+    case "circle":
+      return shape.diam;
+      // Missing the rest of possible Shapes
+  }
+  // @ts-expect-error: Type 'Square' does not satisfy the expected type 'never'.
+  shape satisfies never;
 }
 
 function compute3(shape: Shape) {
@@ -53,5 +67,6 @@ function compute3(shape: Shape) {
 }
 
 console.log(compute1({ kind: "square", side: 1 }));
-console.log(compute2({ kind: "square", side: 1 }));
+console.log(compute2a({ kind: "square", side: 1 }));
+console.log(compute2b({ kind: "square", side: 1 }));
 console.log(compute3({ kind: "square", side: 1 }));
